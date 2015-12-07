@@ -9,9 +9,22 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function(socket){
-  console.log('a user connected');
+    socket.on('connect_user', function(data){
+        username = data.username;
+        password = data.password;
+
+    })
 });
 
 http.listen(3113, function(){
   console.log('listening on *:3113');
 });
+
+
+function connectUser(username, password){
+        for (var i = 0; i < users.length; i++) {
+            if(users[i].name == username && users[i].password = password)
+                return true;
+        };
+        return false;
+}
