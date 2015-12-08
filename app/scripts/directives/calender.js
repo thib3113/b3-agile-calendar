@@ -15,15 +15,18 @@ angular.module('b3AgileCalendarApp')
       scope: {
         title: '@'
       },
-      controller: function($scope, calenderSocket) {
+      controller: function($scope, $routeParams, calenderSocket) {
         // var myIoSocket = io.connect('localhost:3113');
 
-        calenderSocket.getCalendar();
+        $scope.idCalendar = $routeParams.id;
+
+        calenderSocket.getCalendar($scope.idCalendar);
 
         calenderSocket.getSocket().on("get_calendar", function(data){
-          console.log("J'ai recu un calendar !");
+          // console.log("J'ai recu un calendar !");
           $scope.calendar = data;
-          console.log(data);
+          // console.log(data);
+          $scope.selectWeek(0);
         });
 
         $scope.nbrWeeks = 52;
@@ -55,6 +58,8 @@ angular.module('b3AgileCalendarApp')
 
         $scope.goodWeek = null;
         $scope.selectWeek = function(index){
+          $scope.loading = true;
+
           $scope.days = [
             {day: "Lundi"},
             {day: "Mardi"},
@@ -70,6 +75,10 @@ angular.module('b3AgileCalendarApp')
           console.log("Je selectionne la semaine: " + index);
           $scope.goodWeek = $scope.calendar[index];
           console.log($scope.days);
+          setTimeout(function(){
+            $scope.loading = false;
+            $scope.$apply();
+          }, 500);
         }
       }
     };

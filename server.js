@@ -1,9 +1,10 @@
+var fs = require('fs');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 var users = require('./data/users.json');
-var calendar = require('./data/calendars/a.json');
+//var calendar = require('./data/calendars/a.json');
 
 app.get('/', function(req, res){
   res.sendfile('index.html');
@@ -19,7 +20,9 @@ io.on('connection', function(socket){
     });
 
     socket.on('get_calendar', function(data){
-		console.log("Demande du calendrier")
+		console.log("Demande du calendrier: " + data.id)
+		curFile = fs.readFileSync('./data/calendars/' + data.id + '.json').toString();
+		var calendar = JSON.parse(curFile);
         socket.emit('get_calendar', calendar);
     });
 

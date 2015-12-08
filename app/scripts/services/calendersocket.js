@@ -21,10 +21,10 @@ angular.module('b3AgileCalendarApp')
       return mySocket;
     }
 
-    obj.getCalendar = function(){
+    obj.getCalendar = function(idCalendar){
       var socket = this.getSocket();
 
-      socket.emit("get_calendar");
+      socket.emit("get_calendar", {id: idCalendar});
     }
 
     return obj;
