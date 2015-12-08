@@ -10,6 +10,7 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function(socket){
+	console.log("Connexion entrante");
     socket.on('connect_user', function(data){
         username = data.username;
         password = data.password;

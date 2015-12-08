@@ -1,0 +1,17 @@
+<div class="ui item menu">
+  <a ng-repeat="i in getNumberOfWeeks() track by $index" class="item" style="display: inline-block; width: auto;padding-left: 5px !important;padding-right: 5px !important;" ng-click="selectWeek($index)">{{$index + 1}}</a>
+</div>
+<table class="ui table striped celled">
+  <thead>
+    <tr>
+      <th>Hours</th>
+      <th ng-repeat="day in days">{{day}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="hour in getHourArray()">
+      <td>{{hour}}</td>
+      <td  ng-repeat="day in days"></td>
+    </tr>
+  </tbody>
+</table>
