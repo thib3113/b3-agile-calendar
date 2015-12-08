@@ -27,5 +27,12 @@ angular.module('b3AgileCalendarApp')
       socket.emit("get_calendar", {id: idCalendar});
     }
 
+    obj.saveCalendar = function(calendar, idCalendar){
+      var socket = this.getSocket();
+
+      console.log("Sauvegarde !");
+      socket.emit("update_calendar", {calendar: calendar, id: idCalendar});
+    }
+
     return obj;
   });

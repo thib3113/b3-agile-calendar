@@ -57,15 +57,18 @@ angular.module('b3AgileCalendarApp')
         console.log($scope.getHourArray());
 
         $scope.goodWeek = null;
+        $scope.goodWeekIndex = null;
         $scope.selectWeek = function(index){
-          $scope.loading = true;
+          // $scope.loading = true;
+
+          $scope.goodWeekIndex = index;
 
           $scope.days = [
-            {day: "Lundi"},
-            {day: "Mardi"},
-            {day: "Mercredi"},
-            {day: "Jeudi"},
-            {day: "Vendredi"}
+            {index: 0, day: "Lundi"},
+            {index: 1, day: "Mardi"},
+            {index: 2, day: "Mercredi"},
+            {index: 3, day: "Jeudi"},
+            {index: 4, day: "Vendredi"}
           ];
 
           for ( var i = 0 ; i < 5 ; i++ ) {
@@ -75,17 +78,28 @@ angular.module('b3AgileCalendarApp')
           console.log("Je selectionne la semaine: " + index);
           $scope.goodWeek = $scope.calendar[index];
           console.log($scope.days);
-          setTimeout(function(){
-            $scope.loading = false;
-            $scope.$apply();
-          }, 500);
+          // setTimeout(function(){
+          //   $scope.loading = false;
+          //   $scope.$apply();
+          // }, 500);
         }
 
         $scope.listCurses = [
-          {name: "Agile", prof: "Irène"},
-          {name: "ITIL", prof: "Monsieur Barbu"},
-          {name: "Test Unitaires", prof: "Schumacher"}
+          {key: "agile", name: "Agile", prof: "Irène"},
+          {key: "itil", name: "ITIL", prof: "Monsieur Barbu"},
+          {key: "testunit", name: "Test Unitaires", prof: "Schumacher"}
         ]
+
+        $scope.onDropCurse = function(data, evt, semaine, jour, heure){
+          // console.log("Cours largué !!!!!! Semaine: " + semaine + ", Jour: " + jour + ", Heure: " + heure);
+          // console.dir($scope.calendar[semaine][jour][heure]);
+          // console.log(data);
+          $scope.calendar[semaine][jour][heure] = data.name;
+          // console.dir(evt);
+          $scope.selectWeek(semaine);
+
+          calenderSocket.saveCalendar($scope.calendar, $scope.idCalendar)
+        }
       }
     };
   });

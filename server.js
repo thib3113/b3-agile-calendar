@@ -21,15 +21,42 @@ io.on('connection', function(socket){
 
     socket.on('get_calendar', function(data){
 		console.log("Demande du calendrier: " + data.id)
-		curFile = fs.readFileSync('./data/calendars/' + data.id + '.json').toString();
-		var calendar = JSON.parse(curFile);
+		try{
+			curFile = fs.readFileSync('./data/calendars/' + data.id + '.json').toString();
+			var calendar = JSON.parse(curFile);
+		}catch(e){
+			var annee = [];
+            var semaine = [];
+            var jour = {};
+            var cours = {matiere: "", salle: "", }
+            for ( var i = 16 ; i < 48 ; i++ ) {
+              jour[Math.floor(i/2) * 100 + (i%2)*30] = "";
+            }
+
+            for ( var j = 0 ; j < 5 ; j++ )
+              semaine.push(jour);
+
+            for ( var i = 0 ; i < 52 ; i++ )
+              annee.push(semaine);
+
+            var calendar = annee;
+			
+			try{
+				curFile = fs.openSync('./data/calendars/' + data.id + '.json', "w+");
+				fs.writeSync(curFile, JSON.stringify(calendar, null, 2));
+			}catch(e){
+				console.log("Erreur lors de la creation d'un nouveau calendrier");
+			}
+		}
+
         socket.emit('get_calendar', calendar);
     });
 
     socket.on('update_calendar', function(calendar){
-        curFile = fs.openSync('./data/calendars/a.json', "r");
+		console.log("Calendrier recu !");
+        curFile = fs.openSync('./data/calendars/' + calendar.id + '.json', "w+");
         try{
-            fs.writeSync(curFile, JSON.stringify(calendar, null, 2));
+            fs.writeSync(curFile, JSON.stringify(calendar.calendar, null, 2));
             socket.emit('update_calendar', {result:true});
         }
         catch(e){

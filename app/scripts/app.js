@@ -16,6 +16,7 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
+    'ngDraggable',
     'btford.socket-io'
   ])
   .config(function ($routeProvider) {

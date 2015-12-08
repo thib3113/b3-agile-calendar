@@ -12,12 +12,12 @@
   <tbody>
     <tr ng-repeat="hour in getHourArray()">
       <td>{{hour}}</td>
-      <td ng-repeat="day in days" ng-init="time = (hour | stripColon)">{{day[time]}}</td>
+      <td ng-repeat="day in days" ng-init="time = (hour | stripColon)" ng-drop="true" ng-drop-success="onDropCurse($data, $event, goodWeekIndex, day.index, time)">{{day[time]}}</td>
     </tr>
   </tbody>
 </table>
-<div style="float: left; margin-left: 10px; margin-top: 14px; width: 22%;">
+<div style="float: left; margin-left: 10px; margin-top: 14px; width: 22%;" ng-if="!loading">
   <ul class="ui vertical menu" style="width: 100%;padding-left: 0px;">
-    <li ng-repeat="curse in listCurses" class="item"><h4 style="margin-bottom: 0px;">{{curse.name}}</h4><h6 style="margin-top: 10px;">{{curse.prof}}</h6></li>
+    <li ng-repeat="curse in listCurses" class="item draggable" ng-drag="true" ng-drag-data="curse" data-allow-transform="true"><h4 style="margin-bottom: 0px;">{{curse.name}}</h4><h6 style="margin-top: 10px;">{{curse.prof}}</h6></li>
   </ul>
 </div>
