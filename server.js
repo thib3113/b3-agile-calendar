@@ -3,7 +3,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 var users = require('./data/users.json');
-var calendar = require('./data/calendar.json');
+var calendar = require('./data/calendars/a.json');
 
 app.get('/', function(req, res){
   res.sendfile('index.html');
@@ -19,11 +19,12 @@ io.on('connection', function(socket){
     });
 
     socket.on('get_calendar', function(data){
+		console.log("Demande du calendrier")
         socket.emit('get_calendar', calendar);
     });
 
     socket.on('update_calendar', function(calendar){
-        curFile = fs.openSync('./data/calendar.json', "w+");
+        curFile = fs.openSync('./data/calendars/a.json', "r");
         try{
             fs.writeSync(curFile, JSON.stringify(calendar, null, 2));
             socket.emit('update_calendar', {result:true});

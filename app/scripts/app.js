@@ -35,5 +35,5 @@ angular
       });
   })
   .config(function(socketFactoryProvider){
-    socketFactoryProvider.ioSocket(io.connect('localhost:3113'));
+    // socketFactoryProvider.ioSocket(io.connect('localhost:3113'));
   });

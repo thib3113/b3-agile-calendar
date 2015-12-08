@@ -15,8 +15,16 @@ angular.module('b3AgileCalendarApp')
       scope: {
         title: '@'
       },
-      controller: function($scope, socketFactory) {
+      controller: function($scope, calenderSocket) {
         // var myIoSocket = io.connect('localhost:3113');
+
+        calenderSocket.getCalendar();
+
+        calenderSocket.getSocket().on("get_calendar", function(data){
+          console.log("J'ai recu un calendar !");
+          $scope.calendar = data;
+          console.log(data);
+        });
 
         $scope.nbrWeeks = 52;
         $scope.getNumberOfWeeks = function(){
@@ -29,17 +37,39 @@ angular.module('b3AgileCalendarApp')
         $scope.getHourArray = function(){
           var hours = [];
           for (var i = $scope.hourMin * 2; i <= $scope.hourMax/0.5; i++) {
-            hours.push(Math.floor((i/2)) + ":" + (i%2 * 30));
+            hours.push(Math.floor((i/2)) + ":" + ((i%2 == 0) ? ("00") : ("30")));
           }
           return hours;
         }
 
-        $scope.days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
+        // $scope.days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
+        $scope.days = [
+          {day: "Lundi"},
+          {day: "Mardi"},
+          {day: "Mercredi"},
+          {day: "Jeudi"},
+          {day: "Vendredi"}
+        ];
 
         console.log($scope.getHourArray());
 
+        $scope.goodWeek = null;
         $scope.selectWeek = function(index){
+          $scope.days = [
+            {day: "Lundi"},
+            {day: "Mardi"},
+            {day: "Mercredi"},
+            {day: "Jeudi"},
+            {day: "Vendredi"}
+          ];
+
+          for ( var i = 0 ; i < 5 ; i++ ) {
+            $.extend($scope.days[i], $scope.calendar[index][i]);
+          }
+
           console.log("Je selectionne la semaine: " + index);
+          $scope.goodWeek = $scope.calendar[index];
+          console.log($scope.days);
         }
       }
     };

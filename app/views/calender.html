@@ -5,13 +5,13 @@
   <thead>
     <tr>
       <th>Hours</th>
-      <th ng-repeat="day in days">{{day}}</th>
+      <th ng-repeat="day in days">{{day.day}}</th>
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat="hour in getHourArray()">
       <td>{{hour}}</td>
-      <td  ng-repeat="day in days"></td>
+      <td ng-repeat="day in days" ng-init="time = (hour | stripColon)">{{day[time]}}</td>
     </tr>
   </tbody>
 </table>
