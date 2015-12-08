@@ -2,7 +2,7 @@
   <a ng-repeat="i in getNumberOfWeeks() track by $index" class="item" style="display: inline-block; width: auto;padding-left: 5px !important;padding-right: 5px !important;" ng-click="selectWeek($index)">{{$index + 1}}</a>
 </div>
 <h3 ng-if="loading"><center><br><br><br><br>Chargement...</center></h3>
-<table class="ui table striped celled" ng-if="!loading">
+<table class="ui table striped celled row ten columns" ng-if="!loading" style="width: 75%; float: left;">
   <thead>
     <tr>
       <th>Hours</th>
@@ -16,3 +16,8 @@
     </tr>
   </tbody>
 </table>
+<div style="float: left; margin-left: 10px; margin-top: 14px; width: 22%;">
+  <ul class="ui vertical menu" style="width: 100%;padding-left: 0px;">
+    <li ng-repeat="curse in listCurses" class="item"><h4 style="margin-bottom: 0px;">{{curse.name}}</h4><h6 style="margin-top: 10px;">{{curse.prof}}</h6></li>
+  </ul>
+</div>

@@ -80,6 +80,12 @@ angular.module('b3AgileCalendarApp')
             $scope.$apply();
           }, 500);
         }
+
+        $scope.listCurses = [
+          {name: "Agile", prof: "Irène"},
+          {name: "ITIL", prof: "Monsieur Barbu"},
+          {name: "Test Unitaires", prof: "Schumacher"}
+        ]
       }
     };
   });
